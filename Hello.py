@@ -29,8 +29,8 @@ def run():
       query = st.text_area("What would you like to know?")
       button = st.button("Run Magic")
       if button: 
-        agent = create_pandas_dataframe_agent(OpenAI(temperature=0,openai_api_key="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"), df, verbose=False)
-        #agent = create_csv_agent(OpenAI(temperature=0, openai_api_key="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"),uploaded_file,verbose=True,agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,)
+        agent = create_pandas_dataframe_agent(OpenAI(temperature=0,openai_api_key="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"), df, verbose=False)
+        #agent = create_csv_agent(OpenAI(temperature=0, openai_api_key="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"),uploaded_file,verbose=True,agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,)
         answer = agent.run(query)
         st.write(answer)
         sound_file = BytesIO()

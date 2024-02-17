@@ -1,6 +1,13 @@
 import streamlit as st
 import pandas as pd
-from utils import get_answer_csv
+import os
+import langchain
+import openai
+from typing import TextIO
+from langchain.agents.agent_types import AgentType
+from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
+from langchain_openai import ChatOpenAI, OpenAI
+#from utils import get_answer_csv
 
 def run():
     st.set_page_config(
@@ -18,19 +25,18 @@ def run():
 
 # Read CSV
         df = pd.read_csv(uploaded_file)
-
         # Show DataFrame
         st.write("Preview of uploaded data:")
         st.write(df)
-
-        # Allow user to ask a question
-        question = st.text_input("Ask a question about the data:")
 
     if uploaded_file is not None:
       query = st.text_area("Ask any question related to the document")
       button = st.button("Submit")
       if button:
-        st.write(get_answer_csv(uploaded_file, query))
+        #st.write(get_answer_csv(uploaded_file, query))
+        agent = create_pandas_dataframe_agent(OpenAI(temperature=0,openai_api_key="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"), df, verbose=False)
+        answer = agent.run(query)
+        st.write(answer)
 
 
 if __name__ == "__main__":

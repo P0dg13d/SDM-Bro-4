@@ -8,3 +8,4 @@ tabulate
 openai
 black
 langchain_openai
+gtts

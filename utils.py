@@ -1,28 +1,32 @@
-# Copyright (c) Streamlit Inc. (2018-2022) Snowflake Inc. (2022)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# type: ignore
+import os
+from typing import TextIO
 
-import inspect
-import textwrap
-
+import pandas as pd
 import streamlit as st
+from langchain.agents import create_csv_agent, create_pandas_dataframe_agent
+from langchain.llms import OpenAI
+
+openai.api_key = "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"
 
 
-def show_code(demo):
-    """Showing the code of the demo."""
-    show_code = st.sidebar.checkbox("Show code", True)
-    if show_code:
-        # Showing the code of the demo.
-        st.markdown("## Code")
-        sourcelines, _ = inspect.getsourcelines(demo)
-        st.code(textwrap.dedent("".join(sourcelines[1:])))
+def get_answer_csv(file: TextIO, query: str) -> str:
+    """
+    Returns the answer to the given query by querying a CSV file.
+
+    Args:
+    - file (str): the file path to the CSV file to query.
+    - query (str): the question to ask the agent.
+
+    Returns:
+    - answer (str): the answer to the query from the CSV file.
+    """
+ 
+    # Create an agent using OpenAI and the Pandas dataframe
+    agent = create_csv_agent(OpenAI(temperature=0), file, verbose=False)
+    #agent = create_pandas_dataframe_agent(OpenAI(temperature=0), df, verbose=False)
+
+    # Run the agent on the given query and return the answer
+    #query = "whats the square root of the average age?"
+    answer = agent.run(query)
+    return answer

@@ -1,23 +1,20 @@
 import streamlit as st
-from streamlit.logger import get_logger
-
-LOGGER = get_logger(__name__)
-
+import pandas as pd
+from utils import get_answer_csv
 
 def run():
     st.set_page_config(
-        page_title="Chat with Finance Data",
-        page_icon="👋",
+        page_title="Finance Bro",
+        page_icon="🦸🏻‍♂️",
     )
 
-    st.write("# Chat with Finance Data 👋")
+    st.write("# 👨🏻‍💼 Finance Bro 🦸🏻‍♂️")
 
     # File upload
-    uploaded_file = st.file_uploader("Upload CSV", type=["csv"])
+    uploaded_file = st.file_uploader("Dump yo data", type=["csv"])
 
     if uploaded_file is not None:
-        st.write("File uploaded successfully.")
-
+        st.write("File uploaded magically.")
 
 # Read CSV
         df = pd.read_csv(uploaded_file)
@@ -28,16 +25,12 @@ def run():
 
         # Allow user to ask a question
         question = st.text_input("Ask a question about the data:")
-        if st.button("Get Answer"):
-            if not question:
-                st.error("Please enter a question.")
-            else:
-                try:
-                    # Extract answer using LangChain
-                    answer = langchain_qa(question=question, context=df.to_string())
-                    st.success("Answer: {}".format(answer['answer']))
-                except Exception as e:
-                    st.error("Error: {}".format(e))
+
+    if uploaded_file is not None:
+      query = st.text_area("Ask any question related to the document")
+      button = st.button("Submit")
+      if button:
+        st.write(get_answer_csv(uploaded_file, query))
 
 
 if __name__ == "__main__":

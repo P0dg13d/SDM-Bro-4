@@ -10,12 +10,12 @@ from io import BytesIO
 
 def run():
     st.set_page_config(
-        page_title="Finance Bro",
+        page_title="SDM Me Bro",
         page_icon="🦸🏻‍♂️",
     )
 
 # Visible on load
-    st.write("# 👨🏻‍💼 Finance Bro 🦸🏻‍♂️")
+    st.write("# 👨🏻‍💼 SDM Me Bro 🦸🏻‍♂️")
     uploaded_file = st.file_uploader("Dump yo data", type=["csv"])
     if uploaded_file is not None:
         st.write("File uploaded magically.")
@@ -29,8 +29,8 @@ def run():
       query = st.text_area("What would you like to know?")
       button = st.button("Run Magic")
       if button: 
-        agent = create_pandas_dataframe_agent(OpenAI(temperature=0,openai_api_key="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"), df, verbose=False)
-        #agent = create_csv_agent(OpenAI(temperature=0, openai_api_key="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"),uploaded_file,verbose=True,agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,)
+        agent = create_pandas_dataframe_agent(OpenAI(temperature=0,openai_api_key="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"), df, verbose=False)
+        #agent = create_csv_agent(OpenAI(temperature=0, openai_api_key="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"),uploaded_file,verbose=True,agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,)
         answer = agent.run(query)
         st.write(answer)
         sound_file = BytesIO()
